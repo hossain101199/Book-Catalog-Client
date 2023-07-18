@@ -52,3 +52,8 @@ export interface IReviewResponse {
   };
   data: [];
 }
+
+export interface bookReviewData {
+  book: string;
+  comment: string;
+}

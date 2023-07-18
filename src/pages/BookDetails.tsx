@@ -1,40 +1,24 @@
-import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../redux/features/book/booksApi";
-import { useGetreviewReviewsQuery } from "../redux/features/review/reviewsApi";
 import bookImage from "../assets/images/book.jpg";
 import formatDate from "../utils/formatDate";
 import Spinner from "../components/atoms/Spinner";
 import { IBook } from "../types/globalTypes";
-import { useState } from "react";
 import { useAppSelector } from "../redux/hookx";
+import BookReviews from "../components/molecules/BookReviews";
+import { useParams } from "react-router-dom";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
 
   const { token } = useAppSelector((state) => state.auth);
-  const {
-    data: book,
-    isLoading: bookIsLoading,
-    isError: bookIsError,
-  } = useGetSingleBookQuery(id!);
 
-  const { data, isLoading, isError } = useGetreviewReviewsQuery(id!);
+  const { data, isLoading } = useGetSingleBookQuery(id!);
 
-  const bookData: IBook = book?.data;
-
-  const [reviewText, setReviewText] = useState<string>("");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    console.log("Review:", reviewText);
-
-    setReviewText("");
-  };
+  const bookData: IBook = data?.data;
 
   return (
     <>
-      {bookIsLoading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         <div>
@@ -57,31 +41,7 @@ const BookDetails: React.FC = () => {
               </p>
             </div>
           </div>
-          {token && (
-            <div className="border-primary border-[1px] rounded-xl p-5 mt-8">
-              <form className="flex flex-col items-end" onSubmit={handleSubmit}>
-                <textarea
-                  id="review"
-                  name="review"
-                  required
-                  className="w-full outline-none font-semibold text-[#959EAD]"
-                  placeholder="Leave your comment here..."
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  className="bg-primary rounded-lg py-2 px-9 w-fit text-white font-bold text-lg"
-                >
-                  {isLoading ? (
-                    <Spinner spinnerColour="border-white" />
-                  ) : (
-                    "Send"
-                  )}
-                </button>
-              </form>
-            </div>
-          )}
+          {token && <BookReviews />}
         </div>
       )}
     </>
