@@ -31,8 +31,11 @@ const Signin: React.FC = () => {
     e.preventDefault();
     try {
       const result = await SignIn(formData);
+      const token = result?.data?.data.accessToken as string;
 
-      dispatch(setCredentials(result?.data?.data.accessToken as string));
+      localStorage.setItem("token", token);
+
+      dispatch(setCredentials(token));
     } catch (error) {
       console.error("An error occurred during SignIn:", error);
     }
@@ -51,7 +54,7 @@ const Signin: React.FC = () => {
   return (
     <Container className="flex flex-col justify-center items-center h-screen">
       <h1 className="text-4xl font-bold text-secondary mb-7">Sign In</h1>
-      {isLoading && <Spinner spinnerColour="border-white" />}
+
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3">
           <label className="font-semibold text-[#5A7184]" htmlFor="name">
@@ -99,7 +102,7 @@ const Signin: React.FC = () => {
           type="submit"
           className="bg-primary rounded-lg min-w-[300px] py-4 text-white font-bold text-lg"
         >
-          Sign In
+          {isLoading ? <Spinner spinnerColour="border-white" /> : "Sign In"}
         </button>
 
         <p className="text-sm font-semibold text-[#959EAD]">

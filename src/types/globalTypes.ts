@@ -40,3 +40,15 @@ export interface signInFormData {
   email: string;
   password: string;
 }
+
+export interface IReviewResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: [];
+}
