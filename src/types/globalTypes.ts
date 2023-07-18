@@ -30,3 +30,13 @@ export interface IBooksResponse {
   };
   data: IBook[];
 }
+
+export interface signUpFormData {
+  name: string;
+  email: string;
+  password: string;
+}
+export interface signInFormData {
+  email: string;
+  password: string;
+}

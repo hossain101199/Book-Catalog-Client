@@ -1,16 +1,19 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Container from "../components/atoms/Container";
-import { Link } from "react-router-dom";
-interface FormData {
-  email: string;
-  password: string;
-}
+import { Link, Location, useLocation, useNavigate } from "react-router-dom";
+import { signInFormData } from "../types/globalTypes";
+import { useSignInMutation } from "../redux/features/auth/authApi";
+import Spinner from "../components/atoms/Spinner";
+import { useAppDispatch } from "../redux/hookx";
+import { setCredentials } from "../redux/features/auth/authSlice";
 
 const Signin: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<signInFormData>({
     email: "",
     password: "",
   });
+
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -20,14 +23,35 @@ const Signin: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [SignIn, { isLoading, error, isSuccess }] = useSignInMutation();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    try {
+      const result = await SignIn(formData);
+
+      dispatch(setCredentials(result?.data?.data.accessToken as string));
+    } catch (error) {
+      console.error("An error occurred during SignIn:", error);
+    }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setFormData({
+        email: "",
+        password: "",
+      });
+      navigate("/");
+    }
+  }, [isSuccess, navigate]);
 
   return (
     <Container className="flex flex-col justify-center items-center h-screen">
       <h1 className="text-4xl font-bold text-secondary mb-7">Sign In</h1>
+      {isLoading && <Spinner spinnerColour="border-white" />}
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3">
           <label className="font-semibold text-[#5A7184]" htmlFor="name">
@@ -59,6 +83,13 @@ const Signin: React.FC = () => {
             required
           />
         </div>
+
+        {error &&
+          error.data.errorMessages.map((errorMessage) => (
+            <p key={errorMessage.message} className="text-red-500">
+              {errorMessage.message}
+            </p>
+          ))}
 
         <Link to="#" className="text-sm font-semibold text-primary">
           Forgot password?
