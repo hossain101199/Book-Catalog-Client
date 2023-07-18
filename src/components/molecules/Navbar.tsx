@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav className="flex justify-between items-center py-6">
-      <div>logo</div>
+      <Link to="/">logo</Link>
       <div className="flex gap-11 items-center">
         <ul className="flex gap-11">
           <li className="font-semibold text-secondary">
-            <Link to="/sign-in">Books</Link>
+            <Link to="/books">Books</Link>
           </li>
         </ul>
         <Link
