@@ -77,10 +77,6 @@ const Signup: React.FC = () => {
           />
         </div>
 
-        <Link to="#" className="text-sm font-semibold text-primary">
-          Forgot password?
-        </Link>
-
         <button
           type="submit"
           className="bg-primary rounded-lg min-w-[300px] py-4 text-white font-bold text-lg"
