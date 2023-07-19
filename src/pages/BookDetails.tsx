@@ -3,18 +3,15 @@ import bookImage from "../assets/images/book.jpg";
 import formatDate from "../utils/formatDate";
 import Spinner from "../components/atoms/Spinner";
 import { IBook } from "../types/globalTypes";
-import { useAppSelector } from "../redux/hookx";
 import BookReviews from "../components/molecules/BookReviews";
 import { useParams } from "react-router-dom";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
 
-  const { token } = useAppSelector((state) => state.auth);
-
   const { data, isLoading } = useGetSingleBookQuery(id!);
 
-  const bookData: IBook = data?.data;
+  const bookData = data?.data as IBook;
 
   return (
     <>
@@ -41,7 +38,7 @@ const BookDetails: React.FC = () => {
               </p>
             </div>
           </div>
-          {token && <BookReviews />}
+          <BookReviews />
         </div>
       )}
     </>

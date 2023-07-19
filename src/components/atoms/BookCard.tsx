@@ -16,7 +16,7 @@ const BookCard = ({ data }: { data: IBook }) => {
           <span className="font-semibold">Genre :</span> {data.genre}
         </p>
         <p className="text-lg font-normal text-secondary">
-          <span className="font-semibold">Publication Date :</span>{" "}
+          <span className="font-semibold">Publication year :</span>{" "}
           {formatDate(data.publicationDate)}
         </p>
       </Link>
