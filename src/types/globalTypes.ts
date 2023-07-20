@@ -3,7 +3,7 @@ export interface IBook {
   title: string;
   author: string;
   genre: string;
-  publicationDate: string;
+  publicationYear: string;
   createdBy: {
     _id: string;
     name: string;
@@ -17,18 +17,6 @@ export interface IBook {
   updatedAt: string;
   __v: number;
   id: string;
-}
-
-export interface IBooksResponse {
-  statusCode: number;
-  success: boolean;
-  message: string;
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-  data: IBook[];
 }
 
 export interface signUpFormData {
@@ -56,4 +44,11 @@ export interface IReviewResponse {
 export interface bookReviewData {
   book: string;
   comment: string;
+}
+
+export interface ICreateBook {
+  title: string;
+  author: string;
+  genre: string;
+  publicationYear: string;
 }

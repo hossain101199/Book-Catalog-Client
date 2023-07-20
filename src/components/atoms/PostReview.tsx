@@ -42,6 +42,7 @@ const PostReview = () => {
           {isLoading ? <Spinner spinnerColour="border-white" /> : "Send"}
         </button>
       </form>
+      {error && <p className="text-red-500">Error: {error?.data.message}</p>}
     </div>
   );
 };

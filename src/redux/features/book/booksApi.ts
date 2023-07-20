@@ -1,4 +1,4 @@
-import { IBook } from "../../../types/globalTypes";
+import { IBook, ICreateBook } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
 
 interface IQueryParams {
@@ -28,11 +28,29 @@ const booksApi = api.injectEndpoints({
         }
         return queryString;
       },
+      providesTags: ["createdBook"],
     }),
+
     getSingleBook: builder.query<IBook, string>({
       query: (id) => `api/v1/books/${id}`,
+    }),
+
+    createdBook: builder.mutation({
+      query: ({ token, data }: { token: string; data: ICreateBook }) => ({
+        url: `api/v1/books`,
+        method: "POST",
+        headers: {
+          Authorization: `${token}`,
+        },
+        body: data,
+      }),
+      invalidatesTags: ["createdBook"],
     }),
   }),
 });
 
-export const { useGetBooksQuery, useGetSingleBookQuery } = booksApi;
+export const {
+  useGetBooksQuery,
+  useGetSingleBookQuery,
+  useCreatedBookMutation,
+} = booksApi;

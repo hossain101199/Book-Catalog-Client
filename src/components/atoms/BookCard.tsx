@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import book from "../../assets/images/book.jpg";
 import { IBook } from "../../types/globalTypes";
-import formatDate from "../../utils/formatDate";
 
 const BookCard = ({ data }: { data: IBook }) => {
   return (
@@ -17,7 +16,7 @@ const BookCard = ({ data }: { data: IBook }) => {
         </p>
         <p className="text-lg font-normal text-secondary">
           <span className="font-semibold">Publication year :</span>{" "}
-          {formatDate(data.publicationDate)}
+          {data.publicationYear}
         </p>
       </Link>
     </div>

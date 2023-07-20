@@ -1,6 +1,6 @@
 import { useGetSingleBookQuery } from "../redux/features/book/booksApi";
 import bookImage from "../assets/images/book.jpg";
-import formatDate from "../utils/formatDate";
+
 import Spinner from "../components/atoms/Spinner";
 import { IBook } from "../types/globalTypes";
 import BookReviews from "../components/molecules/BookReviews";
@@ -33,8 +33,8 @@ const BookDetails: React.FC = () => {
                 <span className="font-semibold">Genre :</span> {bookData.genre}
               </p>
               <p className="text-lg font-normal text-secondary">
-                <span className="font-semibold">Publication Date :</span>{" "}
-                {formatDate(bookData.publicationDate)}
+                <span className="font-semibold">Publication Year :</span>{" "}
+                {bookData.publicationYear}
               </p>
             </div>
           </div>
