@@ -7,7 +7,7 @@ import { useAppSelector } from "../../redux/hookx";
 const PostReview = () => {
   const { id } = useParams();
   const { token } = useAppSelector((state) => state.auth);
-  const [mutate, { isLoading, error, isSuccess }] = usePostCommentMutation();
+  const [mutate, { isLoading, error }] = usePostCommentMutation();
 
   const [reviewText, setReviewText] = useState<string>("");
 

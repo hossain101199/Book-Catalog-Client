@@ -5,6 +5,7 @@ import Spinner from "../components/atoms/Spinner";
 import { IBook } from "../types/globalTypes";
 import BookReviews from "../components/molecules/BookReviews";
 import { useParams } from "react-router-dom";
+import AddWishlist from "../components/atoms/AddWishlist";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const BookDetails: React.FC = () => {
         <Spinner />
       ) : (
         <div>
+          <AddWishlist />
           <div className="rounded-xl overflow-hidden grid md:grid-cols-2 items-center w-fit shadow-lg">
             <img src={bookImage} className="w-full" alt="book image" />
             <div className="px-8 py-6 flex flex-col gap-3">
