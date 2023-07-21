@@ -28,7 +28,6 @@ const booksApi = api.injectEndpoints({
         }
         return queryString;
       },
-      providesTags: ["createdBook"],
     }),
 
     getSingleBook: builder.query<IBook, string>({
@@ -44,7 +43,16 @@ const booksApi = api.injectEndpoints({
         },
         body: data,
       }),
-      invalidatesTags: ["createdBook"],
+    }),
+
+    deleteBook: builder.mutation({
+      query: ({ token, id }: { token: string; id: string }) => ({
+        url: `api/v1/books/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `${token}`,
+        },
+      }),
     }),
   }),
 });
@@ -53,4 +61,5 @@ export const {
   useGetBooksQuery,
   useGetSingleBookQuery,
   useCreatedBookMutation,
+  useDeleteBookMutation,
 } = booksApi;

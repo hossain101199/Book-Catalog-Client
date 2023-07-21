@@ -1,26 +1,60 @@
-import { useGetSingleBookQuery } from "../redux/features/book/booksApi";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../redux/features/book/booksApi";
 import bookImage from "../assets/images/book.jpg";
 
 import Spinner from "../components/atoms/Spinner";
 import { IBook } from "../types/globalTypes";
 import BookReviews from "../components/molecules/BookReviews";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddWishlist from "../components/atoms/AddWishlist";
 import { useAppSelector } from "../redux/hookx";
+import { userEmail } from "../utils/localStorage";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
   const { token } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useGetSingleBookQuery(id!);
+  const [mutate, { isLoading: isDeleteLoading }] = useDeleteBookMutation();
 
   const bookData = data?.data as IBook;
-  console.log(data?.data);
+
+  const navigate = useNavigate();
+
+  const handleDeleteBook = async () => {
+    const results = await mutate({ token: token!, id: id! });
+    if (results.data) {
+      navigate(`/books`);
+    }
+  };
+
+  const handleEditBook = () => {
+    navigate(`/edit-book/${id!}`);
+  };
   return (
     <>
-      {isLoading ? (
+      {isLoading || isDeleteLoading ? (
         <Spinner />
       ) : (
         <div>
+          {userEmail === data?.data.createdBy.email && (
+            <div className="flex gap-4 justify-end mb-8">
+              <button
+                onClick={handleDeleteBook}
+                className="bg-red-500 text-white px-4 py-2 rounded-md"
+              >
+                Delete
+              </button>
+              <button
+                onClick={handleEditBook}
+                className="bg-primary text-white px-4 py-2 rounded-md"
+              >
+                Edit
+              </button>
+            </div>
+          )}
+
           {token && <AddWishlist />}
 
           <div className="rounded-xl overflow-hidden grid md:grid-cols-2 items-center w-fit shadow-lg mt-8">
