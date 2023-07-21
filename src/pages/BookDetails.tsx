@@ -6,22 +6,24 @@ import { IBook } from "../types/globalTypes";
 import BookReviews from "../components/molecules/BookReviews";
 import { useParams } from "react-router-dom";
 import AddWishlist from "../components/atoms/AddWishlist";
+import { useAppSelector } from "../redux/hookx";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
-
+  const { token } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useGetSingleBookQuery(id!);
 
   const bookData = data?.data as IBook;
-
+  console.log(data?.data);
   return (
     <>
       {isLoading ? (
         <Spinner />
       ) : (
         <div>
-          <AddWishlist />
-          <div className="rounded-xl overflow-hidden grid md:grid-cols-2 items-center w-fit shadow-lg">
+          {token && <AddWishlist />}
+
+          <div className="rounded-xl overflow-hidden grid md:grid-cols-2 items-center w-fit shadow-lg mt-8">
             <img src={bookImage} className="w-full" alt="book image" />
             <div className="px-8 py-6 flex flex-col gap-3">
               <h3 className="text-[28px] font-bold text-secondary">

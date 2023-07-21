@@ -34,6 +34,7 @@ const Signin: React.FC = () => {
       const token = result?.data?.data.accessToken as string;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("userEmail", formData.email);
 
       dispatch(setCredentials(token));
     } catch (error) {

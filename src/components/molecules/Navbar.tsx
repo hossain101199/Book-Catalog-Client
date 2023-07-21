@@ -8,6 +8,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
     dispatch(logOut());
   };
 
@@ -19,9 +20,12 @@ const Navbar = () => {
           <li className="font-semibold text-secondary">
             <Link to="/books">Books</Link>
           </li>
-          <li className="font-semibold text-secondary">
-            <Link to="/add-book">add book</Link>
-          </li>
+
+          {token && (
+            <li className="font-semibold text-secondary">
+              <Link to="/add-book">add book</Link>
+            </li>
+          )}
         </ul>
         {token ? (
           <button

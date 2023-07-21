@@ -1,7 +1,11 @@
-import React, { useState, ChangeEvent } from "react";
-import { useSetWishlistMutation } from "../../redux/features/wishlist/wishlistApi";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import {
+  useGetWishlistByBookIdQuery,
+  useSetWishlistMutation,
+} from "../../redux/features/wishlist/wishlistApi";
 import { useAppSelector } from "../../redux/hookx";
 import { useParams } from "react-router-dom";
+import Spinner from "./Spinner";
 
 interface WishlistState {
   wishlist: boolean;
@@ -10,65 +14,88 @@ interface WishlistState {
 }
 
 const AddWishlist: React.FC = () => {
+  const { id } = useParams<{ id: string }>(); // Define the type for useParams
+  const { token } = useAppSelector((state) => state.auth);
+
+  const { data, isLoading: isWishlistLoading } = useGetWishlistByBookIdQuery(
+    { id: id!, token: token! },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
   const [wishlist, setWishlist] = useState<WishlistState>({
     wishlist: false,
     reading: false,
     finished: false,
   });
 
-  const { id } = useParams();
-  const { token } = useAppSelector((state) => state.auth);
+  useEffect(() => {
+    if (data?.data) {
+      setWishlist({
+        wishlist: data.data.status === "wishlist",
+        reading: data.data.status === "reading",
+        finished: data.data.status === "finished",
+      });
+    }
+  }, [data?.data]);
+
   const [mutate, { isLoading, error }] = useSetWishlistMutation();
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
 
-    const data = {
+    const requestData = {
       token: token!,
       data: { book: id!, status: name },
     };
 
-    await mutate(data);
+    await mutate(requestData);
 
     setWishlist((prevWishlist) => ({
-      wishlist: name === "wishlist" ? checked : false,
-      reading: name === "reading" ? checked : false,
-      finished: name === "finished" ? checked : false,
+      ...prevWishlist,
+      [name]: checked,
     }));
   };
 
   return (
-    <div>
-      <label>
-        <input
-          type="checkbox"
-          name="wishlist"
-          checked={wishlist.wishlist}
-          onChange={handleChange}
-        />
-        Add to Wishlist
-      </label>
-      <br />
-      <label>
-        <input
-          type="checkbox"
-          name="reading"
-          checked={wishlist.reading}
-          onChange={handleChange}
-        />
-        Mark as Reading
-      </label>
-      <br />
-      <label>
-        <input
-          type="checkbox"
-          name="finished"
-          checked={wishlist.finished}
-          onChange={handleChange}
-        />
-        Mark as Finished
-      </label>
-    </div>
+    <>
+      {isLoading || isWishlistLoading ? (
+        <Spinner />
+      ) : (
+        <div className="flex justify-center gap-6">
+          <label>
+            <input
+              type="checkbox"
+              name="wishlist"
+              checked={wishlist.wishlist}
+              onChange={handleChange}
+            />
+            Add to Wishlist
+          </label>
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              name="reading"
+              checked={wishlist.reading}
+              onChange={handleChange}
+            />
+            Mark as Reading
+          </label>
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              name="finished"
+              checked={wishlist.finished}
+              onChange={handleChange}
+            />
+            Mark as Finished
+          </label>
+        </div>
+      )}
+    </>
   );
 };
 
