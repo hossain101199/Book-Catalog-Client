@@ -1,4 +1,4 @@
-import { useGetreviewReviewsQuery } from "../../redux/features/review/reviewsApi";
+import { useGetReviewsQuery } from "../../redux/features/review/reviewsApi";
 import { useParams } from "react-router-dom";
 import PostReview from "../atoms/PostReview";
 import Spinner from "../atoms/Spinner";
@@ -7,7 +7,7 @@ import { useAppSelector } from "../../redux/hookx";
 const BookReviews = () => {
   const { id } = useParams();
   const { token } = useAppSelector((state) => state.auth);
-  const { data, isLoading } = useGetreviewReviewsQuery(id!, {
+  const { data, isLoading } = useGetReviewsQuery(id!, {
     refetchOnMountOrArgChange: true,
   });
 

@@ -36,7 +36,7 @@ const Signin: React.FC = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("userEmail", formData.email);
 
-      dispatch(setCredentials(token));
+      dispatch(setCredentials({ token: token, email: formData.email }));
     } catch (error) {
       console.error("An error occurred during SignIn:", error);
     }

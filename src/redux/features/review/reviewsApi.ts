@@ -3,7 +3,7 @@ import { api } from "../../api/apiSlice";
 
 const reviewsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getreviewReviews: builder.query<IReviewResponse, string>({
+    getReviews: builder.query<IReviewResponse, string>({
       query: (id) => `api/v1/reviews/${id}`,
       providesTags: ["comments"],
     }),
@@ -21,4 +21,4 @@ const reviewsApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetreviewReviewsQuery, usePostCommentMutation } = reviewsApi;
+export const { usePostCommentMutation, useGetReviewsQuery } = reviewsApi;

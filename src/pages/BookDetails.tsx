@@ -14,7 +14,7 @@ import { userEmail } from "../utils/localStorage";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams();
-  const { token } = useAppSelector((state) => state.auth);
+  const { token, email } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useGetSingleBookQuery(id!);
   const [mutate, { isLoading: isDeleteLoading }] = useDeleteBookMutation();
 
@@ -38,7 +38,7 @@ const BookDetails: React.FC = () => {
         <Spinner />
       ) : (
         <div>
-          {userEmail === data?.data.createdBy.email && (
+          {email === data?.data.createdBy.email && (
             <div className="flex gap-4 justify-end mb-8">
               <button
                 onClick={handleDeleteBook}

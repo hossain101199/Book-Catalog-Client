@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hookx";
 import { logOut } from "../../redux/features/auth/authSlice";
+import logo from "../../assets/images/Blue Modern Education Logo.png";
 
 const Navbar = () => {
   const { token } = useAppSelector((state) => state.auth);
@@ -14,7 +15,9 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center py-6">
-      <Link to="/">logo</Link>
+      <Link to="/">
+        <img src={logo} className="w-20" alt="book image" />
+      </Link>
       <div className="flex gap-11 items-center">
         <ul className="flex gap-11">
           <li className="font-semibold text-secondary">

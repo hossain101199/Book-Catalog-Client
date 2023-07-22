@@ -17,12 +17,10 @@ const AddWishlist: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Define the type for useParams
   const { token } = useAppSelector((state) => state.auth);
 
-  const { data, isLoading: isWishlistLoading } = useGetWishlistByBookIdQuery(
-    { id: id!, token: token! },
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  const { data, isLoading: isWishlistLoading } = useGetWishlistByBookIdQuery({
+    id: id!,
+    token: token!,
+  });
 
   const [wishlist, setWishlist] = useState<WishlistState>({
     wishlist: false,
