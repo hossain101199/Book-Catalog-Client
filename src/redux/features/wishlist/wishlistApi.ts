@@ -29,8 +29,21 @@ const wishlistApi = api.injectEndpoints({
       }),
       providesTags: ["wishlist"],
     }),
+
+    getWishlist: builder.query({
+      query: (token) => ({
+        url: `api/v1/wishlist`,
+        headers: {
+          Authorization: `${token as string}`,
+        },
+      }),
+      providesTags: ["wishlist"],
+    }),
   }),
 });
 
-export const { useSetWishlistMutation, useGetWishlistByBookIdQuery } =
-  wishlistApi;
+export const {
+  useSetWishlistMutation,
+  useGetWishlistByBookIdQuery,
+  useGetWishlistQuery,
+} = wishlistApi;
