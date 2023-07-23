@@ -48,8 +48,8 @@ const AddWishlist: React.FC = () => {
       data: { book: id!, status: name },
     };
 
-    await mutate(requestData);
-
+    const result = await mutate(requestData);
+    console.log(result);
     setWishlist((prevWishlist) => ({
       ...prevWishlist,
       [name]: checked,

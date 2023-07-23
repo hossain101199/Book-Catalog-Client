@@ -25,9 +25,14 @@ const Navbar = () => {
           </li>
 
           {token && (
-            <li className="font-semibold text-secondary">
-              <Link to="/add-book">add book</Link>
-            </li>
+            <>
+              <li className="font-semibold text-secondary">
+                <Link to="/add-book">Add book</Link>
+              </li>
+              <li className="font-semibold text-secondary">
+                <Link to="/wishlist">Wishlist</Link>
+              </li>
+            </>
           )}
         </ul>
         {token ? (

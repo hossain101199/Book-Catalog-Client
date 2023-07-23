@@ -8,6 +8,7 @@ import NotFound from "../pages/NotFound";
 import BookDetails from "../pages/BookDetails";
 import CreateBook from "../pages/CreateBook";
 import EditBook from "../pages/EditBook";
+import Wishlist from "../pages/Wishlist";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/books/:id",
         element: <BookDetails />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
       },
       {
         path: "/sign-up",

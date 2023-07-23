@@ -6,6 +6,7 @@ import { accessToken, userEmail } from "./utils/localStorage";
 import { useEffect } from "react";
 import { setCredentials } from "./redux/features/auth/authSlice";
 import Footer from "./components/molecules/Footer";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { token } = useAppSelector((state) => state.auth);
@@ -16,11 +17,13 @@ const App = () => {
       dispatch(setCredentials({ token: accessToken!, email: userEmail! }));
     }
   }, [token, dispatch]);
+
   return (
     <Container>
       <Navbar />
       <Outlet />
       <Footer />
+      <Toaster />
     </Container>
   );
 };

@@ -3,6 +3,7 @@ import { ICreateBook } from "../types/globalTypes";
 import { useCreatedBookMutation } from "../redux/features/book/booksApi";
 import { useAppSelector } from "../redux/hookx";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CreateBook: React.FC = () => {
   const [formData, setFormData] = useState<ICreateBook>({
@@ -36,6 +37,7 @@ const CreateBook: React.FC = () => {
 
     const result = await mutate(data);
     if (result) {
+      toast.success("Successfully created!");
       setFormData({
         title: "",
         author: "",

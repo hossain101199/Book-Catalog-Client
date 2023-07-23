@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../redux/features/auth/authApi";
 import Spinner from "../components/atoms/Spinner";
 import { signUpFormData } from "../types/globalTypes";
+import { toast } from "react-hot-toast/headless";
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState<signUpFormData>({
@@ -27,7 +28,7 @@ const Signup: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await SignUp(formData);
+      const result = await SignUp(formData);
     } catch (error) {
       console.error("An error occurred during SignUp:", error);
     }

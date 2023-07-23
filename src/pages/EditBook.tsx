@@ -7,6 +7,7 @@ import {
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "../redux/features/book/booksApi";
+import { toast } from "react-hot-toast";
 
 const EditBook = () => {
   const { id } = useParams();
@@ -42,7 +43,8 @@ const EditBook = () => {
 
   const { token } = useAppSelector((state) => state.auth);
 
-  const [mutate, { error }] = useUpdateBookMutation();
+  const [mutate, { isLoading: mutateIsLoading, error }] =
+    useUpdateBookMutation();
 
   const navigate = useNavigate();
 
@@ -59,6 +61,7 @@ const EditBook = () => {
 
     const result = await mutate(data);
     if (result) {
+      toast.success("Updated Successfully!");
       setFormData({
         title: "",
         author: "",
@@ -137,7 +140,7 @@ const EditBook = () => {
           className="bg-primary rounded-lg min-w-[300px] py-4 text-white font-bold text-lg"
           disabled={isLoading}
         >
-          {isLoading ? "Updating..." : "Update Book"}
+          {mutateIsLoading ? "Updating..." : "Update Book"}
         </button>
         {error && <p className="text-red-500">Error: {error?.data.message}</p>}
       </form>
