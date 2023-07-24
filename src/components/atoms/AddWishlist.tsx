@@ -6,6 +6,7 @@ import {
 import { useAppSelector } from "../../redux/hookx";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
+import { toast } from "react-hot-toast";
 
 interface WishlistState {
   wishlist: boolean;
@@ -28,7 +29,12 @@ const AddWishlist: React.FC = () => {
     finished: false,
   });
 
+  const [mutate, { isLoading, error }] = useSetWishlistMutation();
+
   useEffect(() => {
+    {
+      error && toast.error(error?.data.message);
+    }
     if (data?.data) {
       setWishlist({
         wishlist: data.data.status === "wishlist",
@@ -36,9 +42,7 @@ const AddWishlist: React.FC = () => {
         finished: data.data.status === "finished",
       });
     }
-  }, [data?.data]);
-
-  const [mutate, { isLoading, error }] = useSetWishlistMutation();
+  }, [data?.data, error]);
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -49,7 +53,10 @@ const AddWishlist: React.FC = () => {
     };
 
     const result = await mutate(requestData);
-    console.log(result);
+    if (result) {
+      toast.success(result?.data.message);
+    }
+
     setWishlist((prevWishlist) => ({
       ...prevWishlist,
       [name]: checked,
@@ -61,37 +68,39 @@ const AddWishlist: React.FC = () => {
       {isLoading || isWishlistLoading ? (
         <Spinner />
       ) : (
-        <div className="flex justify-center gap-6">
-          <label>
-            <input
-              type="checkbox"
-              name="wishlist"
-              checked={wishlist.wishlist}
-              onChange={handleChange}
-            />
-            Add to Wishlist
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              name="reading"
-              checked={wishlist.reading}
-              onChange={handleChange}
-            />
-            Mark as Reading
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              name="finished"
-              checked={wishlist.finished}
-              onChange={handleChange}
-            />
-            Mark as Finished
-          </label>
-        </div>
+        <>
+          <div className="flex justify-center gap-6">
+            <label>
+              <input
+                type="checkbox"
+                name="wishlist"
+                checked={wishlist.wishlist}
+                onChange={handleChange}
+              />
+              Add to Wishlist
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                name="reading"
+                checked={wishlist.reading}
+                onChange={handleChange}
+              />
+              Mark as Reading
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                name="finished"
+                checked={wishlist.finished}
+                onChange={handleChange}
+              />
+              Mark as Finished
+            </label>
+          </div>
+        </>
       )}
     </>
   );
