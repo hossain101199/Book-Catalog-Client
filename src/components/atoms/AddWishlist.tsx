@@ -15,7 +15,7 @@ interface WishlistState {
 }
 
 const AddWishlist: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Define the type for useParams
+  const { id } = useParams<{ id: string }>();
   const { token } = useAppSelector((state) => state.auth);
 
   const { data, isLoading: isWishlistLoading } = useGetWishlistByBookIdQuery({
