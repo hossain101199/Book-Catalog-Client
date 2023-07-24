@@ -3,7 +3,6 @@ import { IBook, ICreateBook } from "../types/globalTypes";
 import { useAppSelector } from "../redux/hookx";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  useCreatedBookMutation,
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "../redux/features/book/booksApi";

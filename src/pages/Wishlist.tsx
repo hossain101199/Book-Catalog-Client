@@ -1,3 +1,4 @@
+import { Key } from "react";
 import Spinner from "../components/atoms/Spinner";
 import { useGetWishlistQuery } from "../redux/features/wishlist/wishlistApi";
 import { useAppSelector } from "../redux/hookx";
@@ -21,13 +22,22 @@ const Wishlist = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.data.map((book, index) => (
-              <tr key={book.id}>
-                <td className="border px-4 py-2">{index + 1}</td>
-                <td className="border px-4 py-2">{book?.book?.title}</td>
-                <td className="border px-4 py-2">{book.status}</td>
-              </tr>
-            ))}
+            {data?.data.map(
+              (
+                book: {
+                  id: Key | null | undefined;
+                  book: { title: string };
+                  status: string;
+                },
+                index: number
+              ) => (
+                <tr key={book.id}>
+                  <td className="border px-4 py-2">{index + 1}</td>
+                  <td className="border px-4 py-2">{book?.book?.title}</td>
+                  <td className="border px-4 py-2">{book.status}</td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       )}

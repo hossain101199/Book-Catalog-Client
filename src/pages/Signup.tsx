@@ -1,10 +1,9 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Container from "../components/atoms/Container";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../redux/features/auth/authApi";
 import Spinner from "../components/atoms/Spinner";
 import { signUpFormData } from "../types/globalTypes";
-import { toast } from "react-hot-toast/headless";
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState<signUpFormData>({
@@ -95,11 +94,13 @@ const Signup: React.FC = () => {
           />
         </div>
         {error &&
-          error.data?.errorMessages.map((errorMessage) => (
-            <p key={errorMessage.message} className="text-red-500">
-              {errorMessage.message}
-            </p>
-          ))}
+          error?.data?.errorMessages.map(
+            (errorMessage: { message: string }) => (
+              <p key={errorMessage.message} className="text-red-500">
+                {errorMessage.message}
+              </p>
+            )
+          )}
         <button
           type="submit"
           className="bg-primary rounded-lg min-w-[300px] py-4 text-white font-bold text-lg"

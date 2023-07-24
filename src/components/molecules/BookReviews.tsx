@@ -10,7 +10,6 @@ const BookReviews = () => {
   const { data, isLoading } = useGetReviewsQuery(id!, {
     refetchOnMountOrArgChange: true,
   });
-
   return (
     <div>
       {token && <PostReview />}
